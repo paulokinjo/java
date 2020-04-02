@@ -4,7 +4,8 @@ pipeline {
         stage('Build') { 
             steps {
                 dir("RestAPISpringBoot") {
-                    sh 'ls -lrt' 
+                    sh 'chmod a+x mvnw'
+                    sh "./mvnw package" 
                 }
             }
         }
