@@ -13,7 +13,7 @@ pipeline {
         stage('Dockerize') { 
             steps {
                 dir("RestAPISpringBoot") {
-                    sh 'docker build -t ${DOCKER_IMAGE} -f ./Dockerfile' 
+                    sh 'docker build -t ${DOCKER_IMAGE} .' 
                 }
             }
         }
