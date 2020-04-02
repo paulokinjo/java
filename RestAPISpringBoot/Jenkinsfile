@@ -19,9 +19,6 @@ pipeline {
         }
         
         stage('Publish into DockerHUB') {
-            when {
-                branch 'master'
-            }
             steps {
                 withDockerRegistry([ credentialsId: "${DOCKER_HUB_ID}", url: "" ]) {
                     sh 'docker push ${DOCKER_IMAGE}:latest'
