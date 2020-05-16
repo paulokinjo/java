@@ -6,21 +6,16 @@
   "configurations": [
     {
       "type": "java",
-      "name": "CodeLens (Launch) - App",
-      "request": "launch",
-      "mainClass": "pong.App"
-    },
-    {
-      "type": "java",
       "name": "Debug (Launch) - Current File",
       "request": "launch",
       "mainClass": "${file}"
     },
     {
       "type": "java",
-      "name": "Debug (Launch)-Game",
+      "name": "Debug (Launch)-Game<1>",
       "request": "launch",
-      "mainClass": "Game"
+      "mainClass": "pong.Game",
+      "projectName": "1"
     }
   ]
 }

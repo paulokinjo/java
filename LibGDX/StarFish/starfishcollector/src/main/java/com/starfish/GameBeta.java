@@ -16,13 +16,13 @@ public abstract class GameBeta extends Game {
   public abstract void initialize();
 
   public void render() {
-    float dt = Gdx.graphics.getDeltaTime();
+    float delta = Gdx.graphics.getDeltaTime();
 
     // act method
-    mainStage.act(dt);
+    mainStage.act(delta);
 
     // Defined by user
-    update(dt);
+    update(delta);
 
     // clear the screen
     Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -32,5 +32,5 @@ public abstract class GameBeta extends Game {
     mainStage.draw();
   }
 
-  public abstract void update(float dt);
+  public abstract void update(float delta);
 }
