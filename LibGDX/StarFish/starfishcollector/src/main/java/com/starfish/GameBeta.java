@@ -15,6 +15,7 @@ public abstract class GameBeta extends Game {
 
   public abstract void initialize();
 
+  @Override
   public void render() {
     float delta = Gdx.graphics.getDeltaTime();
 

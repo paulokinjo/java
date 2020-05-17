@@ -1,8 +1,10 @@
 package com.starfish;
 
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.starfish.Actors.BaseActor;
 import com.starfish.Actors.Startfish;
 import com.starfish.Actors.Turtle;
+import com.starfish.Actors.Whirlpool;
 
 public class StarfishCollector extends GameBeta {
 
@@ -21,6 +23,9 @@ public class StarfishCollector extends GameBeta {
   public static final float OCEAN_WIDTH = 800;
   public static final float OCEAN_HEIGHT = 600;
 
+  public static final String YOU_WIN_MESSAGE_FILE_PATH = BaseActor.ASSETS_PATH + "you-win.png";
+  public static final float YOU_WIN_MESSAGE_DELAY_DURATION = 1;
+
   @Override
   public void initialize() {
     _ocean = new BaseActor(OCEAN_X, OCEAN_Y, mainStage);
@@ -34,8 +39,20 @@ public class StarfishCollector extends GameBeta {
 
   @Override
   public void update(float delta) {
-    // TODO Auto-generated method stub
+    if (_turtle.overlaps(_startfish) && !_startfish.isCollected()) {
+      _startfish.collect();
 
+      Whirlpool whirlpool = new Whirlpool(0, 0, mainStage);
+      whirlpool.centerAtActor(_startfish);
+      whirlpool.scaleBy(0.25f);
+
+      BaseActor youWinMessage = new BaseActor(0, 0, mainStage);
+      youWinMessage.loadTexture(YOU_WIN_MESSAGE_FILE_PATH);
+      youWinMessage.centerAtPosition(400, 300);
+      youWinMessage.setOpacity(0);
+      youWinMessage.addAction(Actions.delay(YOU_WIN_MESSAGE_DELAY_DURATION));
+      youWinMessage.addAction(Actions.after(Actions.fadeIn(1)));
+    }
   }
 
 }
