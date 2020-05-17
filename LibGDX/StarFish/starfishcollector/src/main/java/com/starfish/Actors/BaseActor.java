@@ -1,5 +1,7 @@
 package com.starfish.Actors;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
@@ -11,6 +13,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Intersector.MinimumTranslationVector;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
@@ -170,15 +173,15 @@ public class BaseActor extends Actor {
     accelerateAtAngle(super.getRotation());
   }
 
-  public void setMaxSpeed(float maxSpeed) {
+  public void setMaxSpeed(final float maxSpeed) {
     _maxSpeed = maxSpeed;
   }
 
-  public void setDeceleration(float deceleration) {
+  public void setDeceleration(final float deceleration) {
     _deceleration = deceleration;
   }
 
-  public void applyPhysics(float delta) {
+  public void applyPhysics(final float delta) {
     // apply acceleration
     VelocityVec.add(AccelerationVec.x * delta, AccelerationVec.y * delta);
 
@@ -203,19 +206,19 @@ public class BaseActor extends Actor {
   }
 
   public void setBoundaryRectangle() {
-    float width = super.getWidth();
-    float height = super.getHeight();
-    float[] vertices = { 0, 0, width, 0, width, height, 0, height };
+    final float width = super.getWidth();
+    final float height = super.getHeight();
+    final float[] vertices = { 0, 0, width, 0, width, height, 0, height };
     _boundaryPolygon = new Polygon(vertices);
   }
 
-  public void setBoundaryPolygon(int numSides) {
-    float width = getWidth();
-    float height = getHeight();
+  public void setBoundaryPolygon(final int numSides) {
+    final float width = getWidth();
+    final float height = getHeight();
 
-    float[] vertices = new float[2 * numSides];
+    final float[] vertices = new float[2 * numSides];
     for (int i = 0; i < numSides; i++) {
-      float angle = i * 6.28f / numSides;
+      final float angle = i * 6.28f / numSides;
 
       // x-coordinate
       vertices[2 * i] = (width / 2 * MathUtils.cos(angle)) + width / 2;
@@ -235,9 +238,9 @@ public class BaseActor extends Actor {
     return _boundaryPolygon;
   }
 
-  public boolean overlaps(BaseActor other) {
-    Polygon thisPoly = this.getBoundaryPolygon();
-    Polygon otherPoly = other.getBoundaryPolygon();
+  public boolean overlaps(final BaseActor other) {
+    final Polygon thisPoly = this.getBoundaryPolygon();
+    final Polygon otherPoly = other.getBoundaryPolygon();
 
     // initial test to improve performance
     if (!thisPoly.getBoundingRectangle().overlaps(otherPoly.getBoundingRectangle()))
@@ -246,16 +249,56 @@ public class BaseActor extends Actor {
     return Intersector.overlapConvexPolygons(thisPoly, otherPoly);
   }
 
-  public void centerAtPosition(float x, float y) {
+  public void centerAtPosition(final float x, final float y) {
     super.setPosition(x - super.getWidth() / 2, y - super.getHeight() / 2);
   }
 
-  public void centerAtActor(BaseActor other) {
+  public void centerAtActor(final BaseActor other) {
     centerAtPosition(other.getX() + other.getWidth() / 2, other.getY() + other.getHeight() / 2);
   }
 
-  public void setOpacity(float opacity) {
+  public void setOpacity(final float opacity) {
     super.getColor().a = opacity;
+  }
+
+  public Vector2 preventOverlap(final BaseActor other) {
+    final Polygon thisPoly = this.getBoundaryPolygon();
+    final Polygon otherPoly = other.getBoundaryPolygon();
+
+    // initial test to improve performance
+    if (!thisPoly.getBoundingRectangle().overlaps(otherPoly.getBoundingRectangle()))
+      return null;
+
+    final MinimumTranslationVector mtv = new MinimumTranslationVector();
+    final boolean polygonOverlap = Intersector.overlapConvexPolygons(thisPoly, otherPoly, mtv);
+
+    if (!polygonOverlap)
+      return null;
+
+    super.moveBy(mtv.normal.x * mtv.depth, mtv.normal.y * mtv.depth);
+    return mtv.normal;
+  }
+
+  public static ArrayList<BaseActor> getList(final Stage stage, final String className) {
+    final ArrayList<BaseActor> list = new ArrayList<>();
+
+    Class theClass = null;
+    try {
+      theClass = Class.forName(className);
+    } catch (final Exception e) {
+      e.printStackTrace();
+    }
+
+    for (final Actor actor : stage.getActors()) {
+      if (theClass.isInstance(actor))
+        list.add((BaseActor) actor);
+    }
+
+    return list;
+  }
+
+  public static int count(Stage stage, String className) {
+    return getList(stage, className).size();
   }
 
   private Animation<TextureRegion> processAnimationPlayMode(final Array<TextureRegion> keyFrames,
