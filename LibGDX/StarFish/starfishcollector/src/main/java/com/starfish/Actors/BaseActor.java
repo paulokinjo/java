@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Intersector.MinimumTranslationVector;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -33,6 +35,8 @@ public class BaseActor extends Actor {
   private float _deceleration;
 
   private Polygon _boundaryPolygon;
+
+  private static Rectangle _worldBounds;
 
   public BaseActor(final float x, final float y, final Stage s) {
     super();
@@ -297,8 +301,48 @@ public class BaseActor extends Actor {
     return list;
   }
 
-  public static int count(Stage stage, String className) {
+  public static int count(final Stage stage, final String className) {
     return getList(stage, className).size();
+  }
+
+  public static void setWorldBounds(final float width, final float height) {
+    _worldBounds = new Rectangle(0, 0, width, height);
+  }
+
+  public static void setWorldBounds(final BaseActor baseActor) {
+    setWorldBounds(baseActor.getWidth(), baseActor.getHeight());
+  }
+
+  public void boundToWorld() {
+    if (super.getX() < 0) {
+      super.setX(0);
+    }
+
+    if (super.getX() + super.getWidth() > _worldBounds.width) {
+      super.setX(_worldBounds.width - super.getWidth());
+    }
+
+    if (super.getY() < 0) {
+      super.setY(0);
+    }
+
+    if (super.getY() + super.getHeight() > _worldBounds.height) {
+      super.setY(_worldBounds.height - super.getHeight());
+    }
+  }
+
+  public void alignCamera() {
+    final Camera cam = super.getStage().getCamera();
+
+    // center camera on actor
+    cam.position.set(super.getX() + super.getOriginX(), super.getY() + super.getOriginY(), 0);
+
+    // bound camera to layout
+    cam.position.x = MathUtils.clamp(cam.position.x, cam.viewportWidth / 2, _worldBounds.width - cam.viewportWidth / 2);
+    cam.position.y = MathUtils.clamp(cam.position.y, cam.viewportHeight / 2,
+        _worldBounds.height - cam.viewportHeight / 2);
+
+    cam.update();
   }
 
   private Animation<TextureRegion> processAnimationPlayMode(final Array<TextureRegion> keyFrames,

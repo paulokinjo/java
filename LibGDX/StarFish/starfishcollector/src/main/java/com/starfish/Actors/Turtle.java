@@ -49,5 +49,8 @@ public class Turtle extends BaseActor {
     if (super.isMoving()) {
       super.setRotation(super.getMotionAngle());
     }
+
+    super.boundToWorld();
+    super.alignCamera();
   }
 }
