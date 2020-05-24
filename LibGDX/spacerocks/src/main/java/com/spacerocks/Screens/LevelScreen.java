@@ -37,6 +37,11 @@ public class LevelScreen extends BaseScreen {
     if (keycode == Keys.X) {
       _spaceship.warp();
     }
+
+    if (keycode == Keys.SPACE) {
+      _spaceship.shoot();
+    }
+
     return super.keyDown(keycode);
   }
 

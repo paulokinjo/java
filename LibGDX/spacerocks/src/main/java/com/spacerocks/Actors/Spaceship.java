@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.kinsoftwares.libgdx.Actors.BaseActor;
 import com.kinsoftwares.libgdx.Helpers.Thrusters;
+import com.spacerocks.Powers.Laser;
 import com.spacerocks.Powers.Warp;
 
 public class Spaceship extends BaseActor {
@@ -82,5 +83,17 @@ public class Spaceship extends BaseActor {
 
     Warp warp2 = new Warp(0, 0, super.getStage());
     warp2.centerAtActor(this);
+  }
+
+  public void shoot() {
+    if (super.getStage() == null) {
+      return;
+    }
+
+    Laser laser = new Laser(Laser.X, Laser.Y, super.getStage());
+    // laser.centerAtActor(this);
+    laser.centerAtActor(this);
+    laser.setRotation(super.getRotation());
+    laser.setMotionAngle(super.getRotation());
   }
 }
