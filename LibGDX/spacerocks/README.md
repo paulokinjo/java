@@ -25,4 +25,4 @@
 
 # RESOURCES
 
-[1]: https://www.apress.com/gp/book/9781484233238
+[1]: Java Game Development with LibGDX | https://www.apress.com/gp/book/9781484233238
