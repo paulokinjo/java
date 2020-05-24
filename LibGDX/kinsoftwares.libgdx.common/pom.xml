@@ -3,13 +3,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>SpaceRocks</groupId>
-  <artifactId>spacerocks</artifactId>
+  <groupId>kinsoftwares.libgdx</groupId>
+  <artifactId>kinsoftwares.libgdx.common</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>spacerocks</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <name>kinsoftwares.libgdx.common</name>
+  <url>http://</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,14 +17,6 @@
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>kinsoftwares.libgdx</groupId>
-      <artifactId>kinsoftwares.libgdx.common</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/../kinsoftwares.libgdx.common/target/kinsoftwares.libgdx.common-1.0-SNAPSHOT.jar</systemPath>
-    </dependency>
-
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -59,6 +50,7 @@
       <version>1.9.10</version>
       <classifier>natives-desktop</classifier>
     </dependency>
+
   </dependencies>
 
   <build>
@@ -103,6 +95,20 @@
         <plugin>
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.0.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>2.3</version>
+          <executions>
+            <!-- Run shade goal on package phase -->
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>shade</goal>
+              </goals>
+            </execution>
+          </executions>
         </plugin>
       </plugins>
     </pluginManagement>

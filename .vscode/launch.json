@@ -6,21 +6,23 @@
   "configurations": [
     {
       "type": "java",
-      "name": "CodeLens (Launch) - App",
-      "request": "launch",
-      "mainClass": "pong.App"
-    },
-    {
-      "type": "java",
       "name": "Debug (Launch) - Current File",
       "request": "launch",
       "mainClass": "${file}"
     },
     {
       "type": "java",
-      "name": "Debug (Launch)-Game",
+      "name": "spacerocks",
       "request": "launch",
-      "mainClass": "Game"
+      "mainClass": "com.spacerocks.App",
+      "projectName": "spacerocks"
+    },
+    {
+      "type": "java",
+      "name": "starfishcollector",
+      "request": "launch",
+      "mainClass": "com.starfish.App",
+      "projectName": "starfishcollector"
     }
   ]
 }
