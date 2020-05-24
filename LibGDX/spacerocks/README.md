@@ -22,3 +22,7 @@
 <p><image src="./assets/message-win.png" /></p>
 <p><image src="./assets/message-lose.png" /></p>
 <p><image src="./assets/space.png" /></p>
+
+# RESOURCES
+
+[1]: https://www.apress.com/gp/book/9781484233238
