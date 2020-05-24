@@ -1,5 +1,6 @@
 package com.spacerocks.Screens;
 
+import com.badlogic.gdx.Input.Keys;
 import com.kinsoftwares.libgdx.Actors.BaseActor;
 import com.kinsoftwares.libgdx.Core.BaseScreen;
 import com.spacerocks.Actors.Spaceship;
@@ -8,7 +9,7 @@ public class LevelScreen extends BaseScreen {
 
   public static final int SPACE_X = 0;
   public static final int SPACE_Y = 0;
-  public static final String SPACE_FILE_NAME = BaseActor.ASSETS_PATH + "space.png";
+  public static final String SPACE_FILE_NAME = "space.png";
   public static final int SPACE_WIDTH = 800;
   public static final int SPACE_HEIGHT = 600;
 
@@ -29,6 +30,14 @@ public class LevelScreen extends BaseScreen {
 
   @Override
   public void update(final float arg0) {
+  }
+
+  @Override
+  public boolean keyDown(int keycode) {
+    if (keycode == Keys.X) {
+      _spaceship.warp();
+    }
+    return super.keyDown(keycode);
   }
 
 }

@@ -107,7 +107,7 @@ public class BaseActor extends Group {
     final Array<TextureRegion> keyFrames = new Array<TextureRegion>();
 
     for (int n = 0; n < fileCount; n++) {
-      final String fileName = fileNames[n];
+      final String fileName = getAssetPath(fileNames[n]);
       final Texture texture = new Texture(Gdx.files.internal(fileName));
       texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
       keyFrames.add(new TextureRegion(texture));
@@ -118,7 +118,7 @@ public class BaseActor extends Group {
 
   public Animation<TextureRegion> loadAnimationFromSheet(final String fileName, final int rows, final int cols,
       final float frameDuration, final boolean loop) {
-    final Texture texture = new Texture(Gdx.files.internal(fileName), true);
+    final Texture texture = new Texture(Gdx.files.internal(getAssetPath(fileName)), true);
     texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
     final int frameWidth = texture.getWidth() / cols;
     final int frameHeight = texture.getHeight() / rows;
@@ -138,7 +138,7 @@ public class BaseActor extends Group {
 
   public Animation<TextureRegion> loadTexture(final String fileName) {
     final String[] fileNames = new String[1];
-    fileNames[0] = fileName;
+    fileNames[0] = getAssetPath(fileName);
     return loadAnimationFromFiles(fileNames, 1, true);
   }
 
@@ -381,5 +381,9 @@ public class BaseActor extends Group {
       setAnimation(animation);
 
     return animation;
+  }
+
+  private String getAssetPath(String fileName) {
+    return fileName.contains(BaseActor.ASSETS_PATH) ? fileName : BaseActor.ASSETS_PATH + fileName;
   }
 }
