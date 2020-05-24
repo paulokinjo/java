@@ -17,11 +17,12 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Intersector.MinimumTranslationVector;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 
-public class BaseActor extends Actor {
-  public static final String ASSETS_PATH = "./assets/";
+public class BaseActor extends Group {
+  public static String ASSETS_PATH = "./assets/";
 
   private Animation<TextureRegion> _animation;
   private float _elapsedTime;
@@ -39,7 +40,12 @@ public class BaseActor extends Actor {
   private static Rectangle _worldBounds;
 
   public BaseActor(final float x, final float y, final Stage s) {
+    this(x, y, s, ASSETS_PATH);
+  }
+
+  public BaseActor(final float x, final float y, final Stage s, String assetsPath) {
     super();
+    ASSETS_PATH = assetsPath;
     setPosition(x, y);
     s.addActor(this);
 
@@ -66,8 +72,6 @@ public class BaseActor extends Actor {
 
   @Override
   public void draw(final Batch batch, final float parentAlpha) {
-    super.draw(batch, parentAlpha);
-
     // apply color tint effect
     final Color color = super.getColor();
     batch.setColor(color.r, color.g, color.b, color.a);
@@ -77,6 +81,8 @@ public class BaseActor extends Actor {
           super.getOriginY(), super.getWidth(), super.getHeight(), super.getScaleX(), super.getScaleY(),
           super.getRotation());
     }
+
+    super.draw(batch, parentAlpha);
   }
 
   public void setAnimation(final Animation<TextureRegion> animation) {
