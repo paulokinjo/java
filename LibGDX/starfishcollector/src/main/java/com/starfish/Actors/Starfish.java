@@ -3,6 +3,7 @@ package com.starfish.Actors;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.kinsoftwares.libgdx.Actors.BaseActor;
 
 public class Starfish extends BaseActor {
   public static final String FILE_NAME = BaseActor.ASSETS_PATH + "starfish.png";

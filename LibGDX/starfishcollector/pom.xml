@@ -20,11 +20,10 @@
     <dependency>
       <groupId>kinsoftwares.libgdx</groupId>
       <artifactId>kinsoftwares.libgdx.common</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>1Class.0-SNAPSHOT</version>
       <scope>system</scope>
       <systemPath>${project.basedir}/../kinsoftwares.libgdx.common/target/kinsoftwares.libgdx.common-1.0-SNAPSHOT.jar</systemPath>
     </dependency>
-
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

@@ -1,8 +1,8 @@
 package com.starfish.Screens;
 
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.kinsoftwares.libgdx.Actors.BaseActor;
 import com.kinsoftwares.libgdx.Core.BaseScreen;
-import com.starfish.Actors.BaseActor;
 import com.starfish.Actors.Rock;
 import com.starfish.Actors.Starfish;
 import com.starfish.Actors.Turtle;

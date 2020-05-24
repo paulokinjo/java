@@ -1,6 +1,7 @@
 package com.starfish.Actors;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.kinsoftwares.libgdx.Actors.BaseActor;
 
 public class Whirlpool extends BaseActor {
   public static final String FILE_NAME = BaseActor.ASSETS_PATH + "whirlpool.png";

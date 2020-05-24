@@ -1,4 +1,4 @@
-package com.starfish.Actors;
+package com.kinsoftwares.libgdx.Actors;
 
 import java.util.ArrayList;
 
@@ -343,6 +343,24 @@ public class BaseActor extends Actor {
         _worldBounds.height - cam.viewportHeight / 2);
 
     cam.update();
+  }
+
+  public void wrapAroundWorld() {
+    if (super.getX() + super.getWidth() < 0) {
+      super.setX(_worldBounds.width);
+    }
+
+    if (super.getX() > _worldBounds.width) {
+      super.setX(-super.getWidth());
+    }
+
+    if (super.getY() + super.getHeight() < 0) {
+      super.setY(_worldBounds.height);
+    }
+
+    if (super.getY() > _worldBounds.height) {
+      super.setY(-super.getHeight());
+    }
   }
 
   private Animation<TextureRegion> processAnimationPlayMode(final Array<TextureRegion> keyFrames,

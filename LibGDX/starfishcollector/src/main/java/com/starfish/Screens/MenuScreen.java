@@ -2,9 +2,9 @@ package com.starfish.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.kinsoftwares.libgdx.Actors.BaseActor;
 import com.kinsoftwares.libgdx.Core.BaseScreen;
 import com.starfish.StarfishGame;
-import com.starfish.Actors.BaseActor;
 
 public class MenuScreen extends BaseScreen {
 
