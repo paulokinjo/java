@@ -43,21 +43,21 @@ public class Laser extends BaseActor {
     float currentY = super.getY();
 
     // Make the shot to start from spaceship nose
-    float spaceshipRotation = Math.abs(other.getRotation());
-    if (spaceshipRotation > 0 && spaceshipRotation <= 90) {
-      System.out.println(other.getRotation());
-      currentX += other.getWidth() / 2;
-      currentY += other.getHeight() / 2;
-    } else if (spaceshipRotation > 90 && spaceshipRotation <= 180) {
-      currentX -= other.getWidth() / 2;
-      currentY += other.getHeight() / 2;
-    } else if (spaceshipRotation > 180 && spaceshipRotation <= 270) {
-      currentX -= other.getWidth() / 2;
-      currentY -= other.getHeight() / 2;
-    } else {
-      currentX += other.getWidth() / 2;
-      currentY -= other.getHeight() / 2;
-    }
+    // float spaceshipRotation = Math.abs(other.getRotation());
+    // if (spaceshipRotation > 0 && spaceshipRotation <= 90) {
+    // System.out.println(other.getRotation());
+    // currentX += other.getWidth() / 2;
+    // currentY += other.getHeight() / 2;
+    // } else if (spaceshipRotation > 90 && spaceshipRotation <= 180) {
+    // currentX -= other.getWidth() / 2;
+    // currentY += other.getHeight() / 2;
+    // } else if (spaceshipRotation > 180 && spaceshipRotation <= 270) {
+    // currentX -= other.getWidth() / 2;
+    // currentY -= other.getHeight() / 2;
+    // } else {
+    // currentX += other.getWidth() / 2;
+    // currentY -= other.getHeight() / 2;
+    // }
 
     super.setPosition(currentX, currentY);
   }

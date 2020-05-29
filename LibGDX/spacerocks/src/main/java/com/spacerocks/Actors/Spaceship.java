@@ -90,10 +90,9 @@ public class Spaceship extends BaseActor {
       return;
     }
 
-    Laser laser = new Laser(Laser.X, Laser.Y, super.getStage());
-    // laser.centerAtActor(this);
+    Laser laser = new Laser(Laser.X, Laser.Y, this.getStage());
     laser.centerAtActor(this);
-    laser.setRotation(super.getRotation());
-    laser.setMotionAngle(super.getRotation());
+    laser.setRotation(this.getRotation());
+    laser.setMotionAngle(this.getRotation());
   }
 }

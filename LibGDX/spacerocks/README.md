@@ -18,6 +18,7 @@
 
 ### MAIN ASSETS
 
+<p><image src="./assets/screen.png" /></p>
 <p><image src="./assets/spaceship.png" /></p>
 <p><image src="./assets/message-win.png" /></p>
 <p><image src="./assets/message-lose.png" /></p>
