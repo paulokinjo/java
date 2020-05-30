@@ -1,8 +1,21 @@
 package com.starfish.Screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputEvent.Type;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.kinsoftwares.libgdx.Actors.BaseActor;
+import com.kinsoftwares.libgdx.Core.BaseGame;
 import com.kinsoftwares.libgdx.Core.BaseScreen;
+import com.starfish.StarfishGame;
 import com.starfish.Actors.Rock;
 import com.starfish.Actors.Starfish;
 import com.starfish.Actors.Turtle;
@@ -11,6 +24,7 @@ import com.starfish.Utils.Coordinates;
 
 public class LevelScreen extends BaseScreen {
 
+  private static final String STARFISH_REMAINING_TEXT = "Starfish Left: ";
   private Turtle _turtle;
   public static final float TURTLE_X = 20;
   public static final float TURTLE_Y = 20;
@@ -34,6 +48,7 @@ public class LevelScreen extends BaseScreen {
       new Coordinates(300, 350), new Coordinates(450, 200) };
 
   private boolean _isWin;
+  private Label _starfishLabel;
 
   @Override
   public void initialize() {
@@ -50,6 +65,9 @@ public class LevelScreen extends BaseScreen {
     for (Coordinates coordinates : ROCK_LIST) {
       new Rock(coordinates.getRow(), coordinates.getColumn(), _mainStage);
     }
+
+    initializeLabel();
+    initializeButton();
 
     _turtle = new Turtle(TURTLE_X, TURTLE_Y, _mainStage);
     _isWin = false;
@@ -85,6 +103,35 @@ public class LevelScreen extends BaseScreen {
       youWinMessage.addAction(Actions.after(Actions.fadeIn(1)));
     }
 
+    _starfishLabel.setText(STARFISH_REMAINING_TEXT + BaseActor.count(_mainStage, "com.starfish.Actors.Starfish"));
   }
 
+  private void initializeLabel() {
+    _starfishLabel = new Label(STARFISH_REMAINING_TEXT, BaseGame.LabelStyle);
+    _starfishLabel.setColor(Color.CYAN);
+    _starfishLabel.setPosition(20, 520);
+    _uiStage.addActor(_starfishLabel);
+  }
+
+  private void initializeButton() {
+    ButtonStyle buttonStyle = new ButtonStyle();
+
+    Texture buttonTexture = new Texture(Gdx.files.internal("assets/undo.png"));
+    TextureRegion buttonRegion = new TextureRegion(buttonTexture);
+    buttonStyle.up = new TextureRegionDrawable(buttonRegion);
+
+    Button restartButton = new Button(buttonStyle);
+    restartButton.setColor(Color.CYAN);
+    restartButton.setPosition(720, 520);
+    _uiStage.addActor(restartButton);
+
+    restartButton.addListener((Event e) -> {
+      if (BaseGame.IsTouchDownInputEvent(e)) {
+        StarfishGame.setActiveScreen(new LevelScreen());
+        return false;
+      }
+
+      return false;
+    });
+  }
 }

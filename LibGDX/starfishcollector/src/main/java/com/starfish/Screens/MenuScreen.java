@@ -2,7 +2,12 @@ package com.starfish.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputEvent.Type;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.kinsoftwares.libgdx.Actors.BaseActor;
+import com.kinsoftwares.libgdx.Core.BaseGame;
 import com.kinsoftwares.libgdx.Core.BaseScreen;
 import com.starfish.StarfishGame;
 
@@ -20,11 +25,12 @@ public class MenuScreen extends BaseScreen {
   public static final int TITLE_POSITION_X = 400;
   public static final int TITLE_POSITION_Y = 300;
 
-  public static final int START_X = 0;
-  public static final int START_Y = 0;
-  public static final String START_FILE_PATH = BaseActor.ASSETS_PATH + "message-start.png";
-  public static final int START_POSITION_X = 400;
-  public static final int START_POSITION_Y = 300;
+  // public static final int START_X = 0;
+  // public static final int START_Y = 0;
+  // public static final String START_FILE_PATH = BaseActor.ASSETS_PATH +
+  // "message-start.png";
+  // public static final int START_POSITION_X = 400;
+  // public static final int START_POSITION_Y = 300;
 
   @Override
   public void initialize() {
@@ -37,10 +43,12 @@ public class MenuScreen extends BaseScreen {
     title.centerAtPosition(TITLE_POSITION_X, TITLE_POSITION_Y);
     title.moveBy(0, 100);
 
-    BaseActor start = new BaseActor(START_X, START_Y, _mainStage);
-    start.loadTexture(START_FILE_PATH);
-    start.centerAtPosition(START_POSITION_X, START_POSITION_X);
-    start.moveBy(0, -200);
+    // BaseActor start = new BaseActor(START_X, START_Y, _mainStage);
+    // start.loadTexture(START_FILE_PATH);
+    // start.centerAtPosition(START_POSITION_X, START_POSITION_X);
+    // start.moveBy(0, -200);
+    initializeTextButton();
+
   }
 
   @Override
@@ -49,6 +57,54 @@ public class MenuScreen extends BaseScreen {
       StarfishGame.setActiveScreen(new LevelScreen());
     }
 
+  }
+
+  @Override
+  public boolean keyDown(int keycode) {
+    if (Gdx.input.isKeyPressed(Keys.ENTER)) {
+      StarfishGame.setActiveScreen(new LevelScreen());
+    }
+
+    if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
+      Gdx.app.exit();
+    }
+
+    return super.keyDown(keycode);
+  }
+
+  private void initializeTextButton() {
+    initializeStartButton();
+    initializeQuitButton();
+  }
+
+  private void initializeStartButton() {
+    TextButton startButton = new TextButton("Start", BaseGame.TextButtonStyle);
+    startButton.setPosition(150, 150);
+    _uiStage.addActor(startButton);
+
+    startButton.addListener((Event e) -> {
+      if (BaseGame.IsTouchDownInputEvent(e)) {
+        StarfishGame.setActiveScreen(new LevelScreen());
+        return false;
+      }
+
+      return false;
+    });
+  }
+
+  private void initializeQuitButton() {
+    TextButton quitButton = new TextButton("Quit", BaseGame.TextButtonStyle);
+    quitButton.setPosition(500, 150);
+    _uiStage.addActor(quitButton);
+
+    quitButton.addListener((Event e) -> {
+      if (BaseGame.IsTouchDownInputEvent(e)) {
+        Gdx.app.exit();
+        return false;
+      }
+
+      return false;
+    });
   }
 
 }

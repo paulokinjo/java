@@ -7,6 +7,7 @@ public class StarfishGame extends BaseGame {
 
   @Override
   public void create() {
+    super.create();
     super.setActiveScreen(new MenuScreen());
   }
 }
