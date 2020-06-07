@@ -13,8 +13,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.kinsoftwares.libgdx.Actors.BaseActor;
+import com.kinsoftwares.libgdx.Actors.Sign;
 import com.kinsoftwares.libgdx.Core.BaseGame;
 import com.kinsoftwares.libgdx.Core.BaseScreen;
+import com.kinsoftwares.libgdx.Helpers.DialogBox;
 import com.starfish.StarfishGame;
 import com.starfish.Actors.Rock;
 import com.starfish.Actors.Starfish;
@@ -50,6 +52,8 @@ public class LevelScreen extends BaseScreen {
   private boolean _isWin;
   private Label _starfishLabel;
 
+  private DialogBox _dialogBox;
+
   @Override
   public void initialize() {
     BaseActor ocean = new BaseActor(OCEAN_X, OCEAN_Y, _mainStage);
@@ -74,6 +78,7 @@ public class LevelScreen extends BaseScreen {
     _turtle = new Turtle(TURTLE_X, TURTLE_Y, _mainStage);
     _isWin = false;
 
+    initializeDialogBox();
   }
 
   @Override
@@ -106,6 +111,8 @@ public class LevelScreen extends BaseScreen {
     }
 
     _starfishLabel.setText(STARFISH_REMAINING_TEXT + BaseActor.count(_mainStage, "com.starfish.Actors.Starfish"));
+
+    handleSigns();
   }
 
   private void initializeLabel() {
@@ -137,5 +144,45 @@ public class LevelScreen extends BaseScreen {
 
       return false;
     });
+  }
+
+  private void initializeDialogBox() {
+    Sign sign1 = new Sign(20, 400, _mainStage);
+    sign1.setText("West Starfish Bay");
+
+    Sign sign2 = new Sign(500, 300, _mainStage);
+    sign2.setText("East Starfish Bay");
+
+    _dialogBox = new DialogBox(0, 0, _uiStage);
+    _dialogBox.setBackgroundColor(Color.TAN);
+    _dialogBox.setFontColor(Color.BROWN);
+    _dialogBox.setDialogSize(600, 100);
+    _dialogBox.setFontScale(0.80f);
+    _dialogBox.alignCenter();
+    _dialogBox.setVisible(false);
+
+    super._uiTable.row();
+    super._uiTable.add(_dialogBox).colspan(3);
+  }
+
+  private void handleSigns() {
+    for (BaseActor signActor : BaseActor.getList(_mainStage, "com.kinsoftwares.libgdx.Actors.Sign")) {
+      Sign sign = (Sign) signActor;
+
+      _turtle.preventOverlap(sign);
+
+      boolean nearby = _turtle.isWithinDistance(4, sign);
+      if (nearby && !sign.isViewing()) {
+        _dialogBox.setText(sign.getText());
+        _dialogBox.setVisible(true);
+        sign.setViewing(true);
+      }
+
+      if (sign.isViewing() && !nearby) {
+        _dialogBox.setText(" ");
+        _dialogBox.setVisible(false);
+        sign.setViewing(false);
+      }
+    }
   }
 }

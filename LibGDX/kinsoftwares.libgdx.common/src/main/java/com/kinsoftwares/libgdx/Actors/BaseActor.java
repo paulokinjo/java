@@ -369,6 +369,22 @@ public class BaseActor extends Group {
     }
   }
 
+  public boolean isWithinDistance(float distance, BaseActor other) {
+    Polygon poly1 = getBoundaryPolygon();
+    float scaleX = (super.getWidth() + 2 * distance) / super.getWidth();
+    float scaleY = (super.getHeight() + 2 * distance) / super.getHeight();
+    poly1.setScale(scaleX, scaleY);
+
+    Polygon poly2 = other.getBoundaryPolygon();
+
+    // initial test to improve performance
+    if (!poly1.getBoundingRectangle().overlaps(poly2.getBoundingRectangle())) {
+      return false;
+    }
+
+    return Intersector.overlapConvexPolygons(poly1, poly2);
+  }
+
   private Animation<TextureRegion> processAnimationPlayMode(final Array<TextureRegion> keyFrames,
       final float frameDuration, final boolean loop) {
     final Animation<TextureRegion> animation = new Animation<>(frameDuration, keyFrames);
