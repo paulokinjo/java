@@ -40,13 +40,15 @@ public class MenuScreen extends BaseScreen {
 
     BaseActor title = new BaseActor(TITLE_X, TITLE_Y, _mainStage);
     title.loadTexture(TITLE_FILE_PATH);
-    title.centerAtPosition(TITLE_POSITION_X, TITLE_POSITION_Y);
-    title.moveBy(0, 100);
+    // title.centerAtPosition(TITLE_POSITION_X, TITLE_POSITION_Y);
+    super._uiTable.add(title).colspan(2);
+    // title.moveBy(0, 100);
 
     // BaseActor start = new BaseActor(START_X, START_Y, _mainStage);
     // start.loadTexture(START_FILE_PATH);
     // start.centerAtPosition(START_POSITION_X, START_POSITION_X);
     // start.moveBy(0, -200);
+
     initializeTextButton();
 
   }
@@ -73,14 +75,16 @@ public class MenuScreen extends BaseScreen {
   }
 
   private void initializeTextButton() {
+    _uiTable.row();
     initializeStartButton();
     initializeQuitButton();
   }
 
   private void initializeStartButton() {
     TextButton startButton = new TextButton("Start", BaseGame.TextButtonStyle);
-    startButton.setPosition(150, 150);
-    _uiStage.addActor(startButton);
+    // startButton.setPosition(150, 150);
+    super._uiTable.add(startButton);
+    // _uiStage.addActor(startButton);
 
     startButton.addListener((Event e) -> {
       if (BaseGame.IsTouchDownInputEvent(e)) {
@@ -94,8 +98,9 @@ public class MenuScreen extends BaseScreen {
 
   private void initializeQuitButton() {
     TextButton quitButton = new TextButton("Quit", BaseGame.TextButtonStyle);
-    quitButton.setPosition(500, 150);
-    _uiStage.addActor(quitButton);
+    // quitButton.setPosition(500, 150);
+    super._uiTable.add(quitButton);
+    // _uiStage.addActor(quitButton);
 
     quitButton.addListener((Event e) -> {
       if (BaseGame.IsTouchDownInputEvent(e)) {

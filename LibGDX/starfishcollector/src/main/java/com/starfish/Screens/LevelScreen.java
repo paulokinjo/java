@@ -66,7 +66,9 @@ public class LevelScreen extends BaseScreen {
       new Rock(coordinates.getRow(), coordinates.getColumn(), _mainStage);
     }
 
+    super._uiTable.pad(10);
     initializeLabel();
+    super._uiTable.add().expandX().expandY();
     initializeButton();
 
     _turtle = new Turtle(TURTLE_X, TURTLE_Y, _mainStage);
@@ -109,8 +111,9 @@ public class LevelScreen extends BaseScreen {
   private void initializeLabel() {
     _starfishLabel = new Label(STARFISH_REMAINING_TEXT, BaseGame.LabelStyle);
     _starfishLabel.setColor(Color.CYAN);
-    _starfishLabel.setPosition(20, 520);
-    _uiStage.addActor(_starfishLabel);
+    super._uiTable.add(_starfishLabel).top();
+    // _starfishLabel.setPosition(20, 520);
+    // _uiStage.addActor(_starfishLabel);
   }
 
   private void initializeButton() {
@@ -122,8 +125,9 @@ public class LevelScreen extends BaseScreen {
 
     Button restartButton = new Button(buttonStyle);
     restartButton.setColor(Color.CYAN);
-    restartButton.setPosition(720, 520);
-    _uiStage.addActor(restartButton);
+    super._uiTable.add(restartButton).top();
+    // restartButton.setPosition(720, 520);
+    // _uiStage.addActor(restartButton);
 
     restartButton.addListener((Event e) -> {
       if (BaseGame.IsTouchDownInputEvent(e)) {

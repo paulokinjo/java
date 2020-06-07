@@ -6,16 +6,22 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 public abstract class BaseScreen implements Screen, InputProcessor {
   protected Stage _mainStage;
   protected Stage _uiStage;
+  protected Table _uiTable;
 
   public BaseScreen() {
     super();
+    _uiTable = new Table();
+    _uiTable.setFillParent(true);
 
     _mainStage = new Stage();
+
     _uiStage = new Stage();
+    _uiStage.addActor(_uiTable);
 
     initialize();
   }
