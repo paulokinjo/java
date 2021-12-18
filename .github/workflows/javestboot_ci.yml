@@ -9,7 +9,7 @@ name: Java CI with Gradle
 
 env:
   JAVA_VERSION: 11
-  GRADLE_VERION: 7.3.1
+  GRADLE_VERSION: 7.3.1
 
 
 on:
@@ -44,7 +44,7 @@ jobs:
     - name: Build Gradle
       run: |
         cd javestboot/
-        ./gradlew wrapper --gradle-version 7.3.1
+        ./gradlew wrapper --gradle-version ${{ env.GRADLE_VERSION }}
         ./gradlew build
 
     - name: Test Gradle
