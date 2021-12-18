@@ -37,8 +37,16 @@ jobs:
         cd javestboot/
         ./gradlew wrapper --gradle-version 7.3.1
         ./gradlew build
+
     - name: Test Gradle
       run: |
         ./gradlew test
-        ./gradlew jacocoTestReport
-        ./gradlew jacocoTestCoverageVerification
+
+    - name: Run Test Coverage
+      run: ./gradlew jacocoTestReport
+
+    - name: Generate JaCoCo Badge
+      uses: cicirello/jacoco-badge-generator@v2
+      with:
+        generate-branches-badge: true
+        jacoco-csv-file: build/reports/jacoco/test/jacocoTestReport.csv
