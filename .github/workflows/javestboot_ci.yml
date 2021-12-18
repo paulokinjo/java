@@ -27,7 +27,7 @@ jobs:
 
     - name: Test
       needs:
-          - Params
+        - Params
       run: echo ${{ fromJson(needs.Params) }}
 
     
