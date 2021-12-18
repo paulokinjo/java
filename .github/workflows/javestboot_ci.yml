@@ -30,5 +30,8 @@ jobs:
     - name: Setup Gradle
       uses: gradle/gradle-build-action@4137be6a8bf7d7133955359dbd952c0ca73b1021
     
+    - name: Gradle Wrapper for regenerating missing code
+      run: ./javestboot/gradlew wrapper 
+      
     - name: Build with Gradle
       run: ./javestboot/gradlew build
