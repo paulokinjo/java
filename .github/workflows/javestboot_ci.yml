@@ -26,15 +26,11 @@ jobs:
     - uses: actions/checkout@v2      
 
     - name: Test
-      needs:
-        - Params
-      run: echo ${{ fromJson(needs.Params) }}
+      run: echo ${{ env.JAVA_VERSION }}
 
     
     - name: Set up JDK 11
       uses: actions/setup-java@v2
-      needs:
-        - Params
       with:
         java-version: 11
         distribution: 'adopt'        
