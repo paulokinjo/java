@@ -20,6 +20,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    
+    - name: Change to javestboot dir
+      run: cd javestboot/
+      
     - name: Set up JDK 11
       uses: actions/setup-java@v2
       with:
@@ -28,10 +32,9 @@ jobs:
         gradle-version: 7.3.1
 
     - name: Gradle Wrapper for regenerating missing code
-      run: ./javestboot/gradlew wrapper 
+      run: ./gradlew wrapper 
 
     - name: Setup Gradle
       uses: gradle/gradle-build-action@4137be6a8bf7d7133955359dbd952c0ca73b1021
-          
-    - name: Build with Gradle
-      run: ./javestboot/gradlew build
+      with:
+        arguments: build
