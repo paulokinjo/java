@@ -37,16 +37,5 @@ pipeline {
                 }
 			}
 		}
-
-        stage('Docker Push') {
-          steps {
-            dir("${env.WORK_DIR}") {
-                withCredentials([usernamePassword(credentialsId: "${DOCKERHUB_CREDENTIALS}", passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-                    sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-                    sh 'docker push ${IMAGE_NAME}:${IMAGE_TAG}'
-                    sh 'docker push ${IMAGE_NAME}:latest'
-                }
-            }
-        }
     }
 }
