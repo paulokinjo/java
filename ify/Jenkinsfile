@@ -1,0 +1,66 @@
+pipeline {
+
+    agent any
+
+	environment {
+        WORK_DIR               = 'ify'
+		DOCKERHUB_CREDENTIALS  = 'dockerhub-cred-paulo'
+        IMAGE_NAME             = "paulokinjo/java-ify-api"
+        GIT_COMMIT             = sh(returnStdout: true, script: 'git log --format="%H" -n 1')
+        IMAGE_TAG              = sh(returnStdout: true, script: "echo ${env.BUILD_NUMBER}${GIT_COMMIT}")
+	}
+
+	stages {
+	    stage('Build') {
+	        steps {
+                sh './gradlew build'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                script {
+                    try {
+                        sh './gradlew test jacocoTestReport --no-daemon'
+                    } finally {
+                        junit '**/build/test-results/test/*.xml'
+                        the junit test results available in any case
+                        (success & failure)
+                    }
+                }
+            }
+        }
+
+		stage('Docker Build') {
+			steps {
+                dir("${env.WORK_DIR}") {
+                    sh 'docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .'
+                    sh 'docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${IMAGE_NAME}:latest'
+                }
+			}
+		}
+
+        stage('Docker Push') {
+          steps {
+            dir("${env.WORK_DIR}") {
+                withCredentials([usernamePassword(credentialsId: "${DOCKERHUB_CREDENTIALS}", passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                    sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+                    sh 'docker push ${IMAGE_NAME}:${IMAGE_TAG}'
+                    sh 'docker push ${IMAGE_NAME}:latest'
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            step([$class: 'JacocoPublisher',
+                   execPattern: '**/build/jacoco/*.exec',
+                   classPattern: '**/build/classes',
+                   sourcePattern: 'src/main/java',
+                   exclusionPattern: 'src/test*'
+               ])
+            }
+        }
+    }
+}
