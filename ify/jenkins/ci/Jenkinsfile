@@ -42,26 +42,29 @@ pipeline {
 			}
 		}
 
-//         stage('Docker Push') {
-//           steps {
-//             dir("${env.WORK_DIR}") {
-//                 withCredentials([usernamePassword(credentialsId: "${DOCKERHUB_CREDENTIALS}", passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-//                     sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-//                     sh 'docker push ${IMAGE_NAME}:${IMAGE_TAG}'
-//                     sh 'docker push ${IMAGE_NAME}:latest'
-//                 }
-//             }
-//         }
+		stage('Docker Push') {
+		    steps {
+		        dir("${env.WORK_DIR}") {
+                   withCredentials([usernamePassword(credentialsId: "${DOCKERHUB_CREDENTIALS}",
+                                                     passwordVariable: 'dockerHubPassword',
+                                                     usernameVariable: 'dockerHubUser')]) {
+                        sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+                        sh 'docker push ${IMAGE_NAME}:${IMAGE_TAG}'
+                        sh 'docker push ${IMAGE_NAME}:${IMAGE_TAG}'
+                   }
+		        }
+		    }
+		}
     }
 
-//     post {
-//         always {
-//             step([$class: 'JacocoPublisher',
-//                    execPattern: '**/build/jacoco/*.exec',
-//                    classPattern: '**/build/classes',
-//                    sourcePattern: 'src/main/java',
-//                    exclusionPattern: 'src/test*'
-//            ])
-//         }
-//     }
+    post {
+        always {
+            step([$class: 'JacocoPublisher',
+                   execPattern: '**/build/jacoco/*.exec',
+                   classPattern: '**/build/classes',
+                   sourcePattern: 'src/main/java',
+                   exclusionPattern: 'src/test*'
+           ])
+        }
+    }
 }
