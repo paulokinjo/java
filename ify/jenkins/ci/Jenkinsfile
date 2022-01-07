@@ -13,17 +13,21 @@ pipeline {
 	stages {
 	    stage('Build') {
 	        steps {
-                sh './gradlew build'
+	            dir("${env.WORK_DIR}") {
+                    sh './gradlew build'
+                }
             }
         }
 
         stage('Test') {
             steps {
-                script {
-                    try {
-                        sh './gradlew test jacocoTestReport --no-daemon'
-                    } finally {
-                        junit '**/build/test-results/test/*.xml'
+                 dir("${env.WORK_DIR}") {
+                    script {
+                        try {
+                            sh './gradlew test jacocoTestReport --no-daemon'
+                        } finally {
+                            junit '**/build/test-results/test/*.xml'
+                        }
                     }
                 }
             }
@@ -37,5 +41,27 @@ pipeline {
                 }
 			}
 		}
+
+//         stage('Docker Push') {
+//           steps {
+//             dir("${env.WORK_DIR}") {
+//                 withCredentials([usernamePassword(credentialsId: "${DOCKERHUB_CREDENTIALS}", passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+//                     sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+//                     sh 'docker push ${IMAGE_NAME}:${IMAGE_TAG}'
+//                     sh 'docker push ${IMAGE_NAME}:latest'
+//                 }
+//             }
+//         }
     }
+
+//     post {
+//         always {
+//             step([$class: 'JacocoPublisher',
+//                    execPattern: '**/build/jacoco/*.exec',
+//                    classPattern: '**/build/classes',
+//                    sourcePattern: 'src/main/java',
+//                    exclusionPattern: 'src/test*'
+//            ])
+//         }
+//     }
 }
