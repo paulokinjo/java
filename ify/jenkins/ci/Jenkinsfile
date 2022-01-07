@@ -11,10 +11,17 @@ pipeline {
 	}
 
 	stages {
+        stage('Build') {
+            steps {
+                dir("${env.WORK_DIR}") {
+                    sh './gradlew clean --no-daemon'
+                }
+            }
+        }
 	    stage('Build') {
 	        steps {
 	            dir("${env.WORK_DIR}") {
-                    sh './gradlew build'
+                    sh './gradlew build --no-daemon'
                 }
             }
         }
