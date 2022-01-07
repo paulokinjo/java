@@ -1,0 +1,25 @@
+GET http://localhost:8080/api/coffees
+
+###
+
+POST http://localhost:8080/api/coffees HTTP/1.1
+content-type: application/json
+
+{
+    "id": "1234",
+    "name": "Cafe Brasileiro"
+}
+
+###
+
+DELETE http://localhost:8080/api/coffees/1234 HTTP/1.1
+
+###
+
+PUT http://localhost:8080/api/coffees/1234 HTTP/1.1
+content-type: application/json
+
+{
+  "id": "1234",
+  "name": "Cafe Brasileiro Updated"
+}
