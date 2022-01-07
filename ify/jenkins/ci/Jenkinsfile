@@ -24,8 +24,6 @@ pipeline {
                         sh './gradlew test jacocoTestReport --no-daemon'
                     } finally {
                         junit '**/build/test-results/test/*.xml'
-                        the junit test results available in any case
-                        (success & failure)
                     }
                 }
             }
