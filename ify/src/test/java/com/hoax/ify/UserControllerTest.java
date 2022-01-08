@@ -3,6 +3,8 @@ package com.hoax.ify;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.hoax.ify.user.User;
+import com.hoax.ify.user.UserRepository;
+import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,14 @@ public class UserControllerTest {
     @Autowired
     TestRestTemplate testRestTemplate;
 
+    @Autowired
+    UserRepository userRepository;
+
+    @Before("")
+    public void cleanup() {
+        userRepository.deleteAll();
+    }
+
     @Test
     public void postUser_whenUserIsValid_receiveOk() {
         User user = createValidUser();
@@ -36,6 +46,7 @@ public class UserControllerTest {
     public void postUser_whenUserIsValid_userSavedToDatabase() {
         User user = createValidUser();
         testRestTemplate.postForEntity(API_1_0_USERS, user, Object.class);
+        assertThat(userRepository.count()).isEqualTo(1);
     }
 
     private User createValidUser() {
