@@ -1,9 +1,13 @@
 package com.hoax.ify;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.hoax.ify.shared.GenericResponse;
 import com.hoax.ify.user.User;
 import com.hoax.ify.user.UserRepository;
+import org.apiguardian.api.API;
 import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -48,6 +52,23 @@ public class UserControllerTest {
         testRestTemplate.postForEntity(API_1_0_USERS, user, Object.class);
         assertThat(userRepository.count()).isEqualTo(1);
     }
+
+    @Test
+    public void postUser_whenUserIsValid_receiveSuccessMessage() {
+        User user = createValidUser();
+        ResponseEntity<GenericResponse> response = testRestTemplate.postForEntity(API_1_0_USERS, user, GenericResponse.class);
+        assertThat(response.getBody().getMessage()).isNotNull();
+    }
+
+    @Test
+    public void postUser_whenUserIsValid_passwordIsHashedInDatabase() {
+        User user = createValidUser();
+        testRestTemplate.postForEntity(API_1_0_USERS, user, Object.class);
+        List<User> users = userRepository.findAll();
+        User inDB = users.get(0);
+        assertThat(inDB.getPassword()).isNotEqualTo(user.getPassword());
+    }
+
 
     private User createValidUser() {
         return new User("test-user", "test-display", "P@ssw0rd");
