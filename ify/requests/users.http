@@ -6,3 +6,11 @@ content-type: application/json
   "displayName": "test-display",
   "password": "P4ssw0rd"
 }
+
+###
+
+POST http://localhost:8080/api/1.0/users
+content-type: application/json
+accept-language: pt
+
+{}
