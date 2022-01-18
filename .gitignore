@@ -9,6 +9,7 @@ bin/
 .project
 .settings
 .springBeans
+.gradle
 
 ### IntelliJ IDEA ###
 .idea
@@ -25,3 +26,4 @@ nbdist/
 .nb-gradle/
 target/
 .vscode
+.gradle/
